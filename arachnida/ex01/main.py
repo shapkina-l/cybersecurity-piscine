@@ -1,6 +1,6 @@
 import argparse
 
-from crawler import scrape
+from crawler import crawl
 
 def main():
     parser = argparse.ArgumentParser()
@@ -13,33 +13,10 @@ def main():
     args = parser.parse_args()
 
     visited = set()
+    downloaded = set()
 
-    scrape(args.url, args.p)
+    level = args.l if args.r else 1
+    crawl(args.url, level, args.p, visited, downloaded)
     
-
 if __name__ == "__main__":
     main()
-
-
-
-
-
-# visited = set()
-
-# main(url, level):
-#     if level < 1:
-#         return
-
-#     if url not in visited:
-#         visited.add(url)
-#         scrape
-#     else: 
-#         return
-
-#     if level == 1:
-#         return
-        
-#     extract all links from current page
-
-#     for each link:
-#         scrape(link, level - 1)
