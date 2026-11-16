@@ -1,6 +1,9 @@
 import os
 import sys
 
+from attributes import get_basic_attributes
+from output import print_section
+
 SUPPORTED_EXTENSIONS = (".jpg", ".jpeg", ".png", ".gif", ".bmp")
 
 def print_usage():
@@ -18,8 +21,8 @@ def check_file(path):
     return None
 
 def process_file(path):
-    print(f"=== {path} ===")
-    print("(nothing parsed yet)")
+    print(f"===== {path} =====")
+    print_section("File attributes", get_basic_attributes(path))
     print()
 
 def main(argv):
