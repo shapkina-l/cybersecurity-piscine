@@ -1,8 +1,14 @@
 import os
 import sys
 
+import jpeg
 from attributes import get_basic_attributes
+from detect import detect_format, extension_matches
 from output import print_section
+
+PARSERS = {
+    "jpeg": jpeg.parse,
+}
 
 SUPPORTED_EXTENSIONS = (".jpg", ".jpeg", ".png", ".gif", ".bmp")
 
@@ -21,8 +27,22 @@ def check_file(path):
     return None
 
 def process_file(path):
-    print(f"===== {path} =====")
-    print_section("File attributes", get_basic_attributes(path))
+    """Print the metadata of one file."""
+    fmt = detect_format(path)
+    if fmt is None:
+        raise ValueError("not a supported image (expected jpeg, png, gif, bmp)")
+
+    print(f"=== {path} ===")
+    attrs = get_basic_attributes(path)
+    attrs.append(("Format", fmt.upper()))
+    if not extension_matches(path, fmt):
+        attrs.append(("Warning", "extension does not match the real format"))
+    print_section("File attributes", attrs)
+
+    parser = PARSERS.get(fmt)
+    if parser:
+        for title, items in parser(path):
+            print_section(title, items)
     print()
 
 def main(argv):
