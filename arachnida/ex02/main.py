@@ -1,13 +1,19 @@
 import os
 import sys
 
+import bmp
+import gif
 import jpeg
+import png
 from attributes import get_basic_attributes
 from detect import detect_format, extension_matches
 from output import print_section
 
 PARSERS = {
     "jpeg": jpeg.parse,
+    "png": png.parse,
+    "gif": gif.parse,
+    "bmp": bmp.parse,
 }
 
 SUPPORTED_EXTENSIONS = (".jpg", ".jpeg", ".png", ".gif", ".bmp")
